@@ -1,5 +1,5 @@
 # catt-gui
-GUI for catt chromecast control
+GUI for catt - chromecast control
 
 ###### Install:
 
