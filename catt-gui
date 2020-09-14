@@ -1,0 +1,81 @@
+#!/bin/bash
+# Manteiner: Felipe Facundes
+# License: GPLv3
+#  Telegram: @FeFacundes
+#  Telegram Group: t.me/winehq_linux
+catt_gui="$(zenity --width=340 --height=660 --title='Catt-Gui para Chromecast' --list --text 'O que você quer fazer?' --radiolist --column 'Escolha' --column 'Ação' TRUE Youtube_e_outros_Streamings FALSE Controle_Multimídia FALSE Site_Cast FALSE Mídias FALSE Vídeos_com_Legendas FALSE Volume FALSE Mais_Volume FALSE Menos_Volume FALSE Play_Pause FALSE Stop FALSE Voltar FALSE Adiantar FALSE Avançar_no_tempo FALSE Salvar FALSE Restaurar FALSE Espelhar_Tela_em_2k FALSE Espelhar_Tela_em_1080p FALSE Espelhar_Tela_em_720p FALSE Status FALSE Informações_do_Chromecast FALSE Dicas FALSE Créditos)";
+
+if [ "$catt_gui" = "Youtube_e_outros_Streamings" ] ; then
+   you_url=`zenity --entry --text "Insira o link do Youtube ou outro Streaming que deseja ser exibido" --title "Streaming"`
+   catt cast "$you_url"
+fi
+if [ "$catt_gui" = "Controle_Multimídia" ] ; then
+   python <(curl -s https://raw.githubusercontent.com/soreau/catt-qt/master/cattqt/cattqt.py)
+fi
+if [ "$catt_gui" = "Site_Cast" ] ; then
+   url=`zenity --entry --text "Insira o link do Site" --title "URL"`
+   catt cast_site "$url"
+fi
+if [ "$catt_gui" = "Mídias" ] ; then
+   media=`zenity --file-selection --filename="$HOME/" --text "Escolha o arquivo a ser exibido" --title "Enviar Mídia"`
+   catt cast "$media"
+fi
+if [ "$catt_gui" = "Vídeos_com_Legendas" ] ; then
+   video=`zenity --file-selection --filename="$HOME/" --text "Escolha o vídeo legendado" --title "Vídeo Legendado"`
+   subtitle=`echo $video | cut -d'.' -f1`
+   catt cast "$video" -s "$subtitle".[sSvV][rRtT][tT]
+fi
+if [ "$catt_gui" = "Volume" ] ; then
+   vol=`zenity --entry --text "Defina o volume entre: 0-100" --title "Volume"`
+   catt volume "$vol"
+fi
+if [ "$catt_gui" = "Mais_Volume" ]; then
+   catt volumeup
+fi
+if [ "$catt_gui" = "Menos_Volume" ]; then
+   catt volumedown
+fi
+if [ "$catt_gui" = "Play_Pause" ] ; then
+   catt play_toggle
+fi
+if [ "$catt_gui" = "Stop" ] ; then
+   catt stop
+fi
+if [ "$catt_gui" = "Voltar" ] ; then
+   catt rewind
+fi
+if [ "$catt_gui" = "Adiantar" ] ; then
+   catt ffwd
+fi
+if [ "$catt_gui" = "Avançar_no_tempo" ] ; then
+   time=`zenity --entry --text "Defina o tempo que você quer avançar" --title "Tempo do vídeo"`
+   catt seek "$time"
+fi
+if [ "$catt_gui" = "Salvar" ] ; then
+   catt save
+fi
+if [ "$catt_gui" = "Restaurar" ] ; then
+   catt restore
+fi
+if [ "$catt_gui" = "Espelhar_Tela_em_2k" ] ; then
+   mkchromecast --video --screencast --resolution 2k
+fi
+if [ "$catt_gui" = "Espelhar_Tela_em_1080p" ] ; then
+   mkchromecast --video --screencast --resolution 1080p
+fi
+if [ "$catt_gui" = "Espelhar_Tela_em_720p" ] ; then
+   mkchromecast --video --screencast --resolution 720p
+fi
+if [ "$catt_gui" = "Status" ] ; then
+   zenity --icon-name applications-multimedia --info --title="Status da Reprodução" --text="$(catt status)" --width="600" height="600"
+fi
+if [ "$catt_gui" = "Informações_do_Chromecast" ] ; then
+   zenity --icon-name applications-multimedia --info --title="Informação do Chromecast" --text="$(catt info)" --width="800" height="800"
+fi
+if [ "$catt_gui" = "Dicas" ] ; then
+   zenity --info --title="Dicas" --text="Para usar está GUI, é necessário que você instale o CATT Através do comando: sudo pip install catt Para espelhamento de tela é necessário que instale o: MKCHROMECAST" --width="150" height="600"
+fi
+if [ "$catt_gui" = "Créditos" ] ; then
+   zenity --info --title="Créditos" --text="Mantenedor: Felipe Facundes Licença: GPLv3         Telegram : @FeFacundes" --width="200" height="200"
+fi
+exit 0
