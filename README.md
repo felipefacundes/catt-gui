@@ -1,6 +1,6 @@
 # catt-gui
 
-A control GUI for Chromecasts written using Zenity
+A control GUI for Chromecasts written using Zenity, catt api and pychromecast.
 
 ----
 
@@ -19,3 +19,6 @@ cd /bin/ && sudo wget https://raw.githubusercontent.com/felipefacundes/catt-gui/
 - **Dependencies**:
   - catt
   - zenity
+  
+- **Optional**:
+  - mkchromecast
